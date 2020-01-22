@@ -1,5 +1,4 @@
 # retro_shortcuts
 Retroarch shortcut maker
 
-CAUTION!
-Selections currently don't select the correct value
+Creates a launch shortcut for ROM & Core for Retroarch
