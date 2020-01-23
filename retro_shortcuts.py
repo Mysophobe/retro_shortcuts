@@ -1,32 +1,38 @@
 #! python3
 
 # RA Shortcut Creator
-# Made by lilbud
-# Edits by Teoma
-# Version 2.1
-"""
-	Not fully tested
-	TODO: OS checks to automatically check paths
-"""
+# Original by lilbud
+# Updated by Teoma
+# Version 1.0
+
+###########
+#	Not fully tested
+#	TODO: OS checks to automatically check paths
+#	TODO: Fix array list disorder. cores[] games[]
+#	TODO: Suffix core to game, for optional emulators with same game
+###########
+
 import os, sys, stat
+from pprint import pprint
 
 # REPLACE THESE LINES WITH PATHS TO YOUR FOLDERS v
+_quest = ""
+while _quest not in ('y','n'):
+	_quest = eval('input("Use Windows paths? (y/n): ")')
 
-_quest = str(input("Use Windows paths? (y/n): "))
-
-# Useful if you host games on different OS types, otherwise you can remove the line above and section below you don't need
-if _quest != "y":
-	##### *NIX PATHS #####
-	_ext = ".sh" # Doesn't matter, unless you're a GUI user
-	RABINARY = "retroarch"
-	RAFOLDER = r'/mnt/c/Users/teoma/AppData/Roaming/RetroArch'
-	ROM_PATH = r'/mnt/d/My Documents/Downloads/Games/ROMS'
-else:
-	##### Windows PATHS #####
-	_ext = ".bat"
-	RABINARY = "retroarch.exe"
-	RAFOLDER = r'C:\Users\teoma\AppData\Roaming\RetroArch'
-	ROM_PATH = r'D:\My Documents\Downloads\Games\ROMS'
+	# Useful if you host games on different OS types, otherwise you can remove the line above and section below you don't need
+	if _quest != "y":
+		##### *NIX PATHS #####
+		_ext = ".sh" # Doesn't matter, unless you're a GUI user
+		RABINARY = "retroarch"
+		RAFOLDER = r'/mnt/c/Users/teoma/AppData/Roaming/RetroArch'
+		ROM_PATH = r'/mnt/d/My Documents/Downloads/Games/ROMS'
+	else:
+		##### Windows PATHS #####
+		_ext = ".bat"
+		RABINARY = "retroarch.exe"
+		RAFOLDER = r'C:\Users\teoma\AppData\Roaming\RetroArch'
+		ROM_PATH = r'D:\My Documents\Downloads\Games\ROMS'
 	
 CORES_DIR = os.path.join(RAFOLDER, "cores")
 RA_LOCATION = os.path.join(RAFOLDER, RABINARY)
@@ -42,6 +48,10 @@ try:
 	cores = [c for c in os.listdir(CORES_DIR) if os.path.isfile(os.path.join(CORES_DIR, c))]
 	# List only Game Files, not directories
 	games = [g for g in os.listdir(ROM_PATH) if os.path.isfile(os.path.join(ROM_PATH, g))]
+	
+	#pprint(locals())
+	#exit()
+	
 except OSError:
 	print ("Script could not find either the ROM or Games folder! Are your paths set correctly?")
 	exit()
@@ -123,11 +133,10 @@ def rerun():
 
 def check():
 	_question = "Would You Like to Make Another Shortcut? (y/n): "
-	anotherone = str( input(_question) )
-	while (anotherone!="y" and anotherone!="n"):
-		anotherone = str( input(_question) )
-		
-	if anotherone == "y":
+	anotherone = ""
+	while anotherone not in ('y','n'):
+		anotherone = eval( 'input(_question)' )		
+	if anotherone == 'y':
 		rerun()
 		check()
 	else:
